@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1080550597901",
+    "firebase_url": "https://login-901a5-default-rtdb.firebaseio.com",
+    "project_id": "login-901a5",
+    "storage_bucket": "login-901a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080550597901:android:b82241f4834cf5c1033c44",
+        "android_client_info": {
+          "package_name": "com.lucifer.SocialLoginXamarin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080550597901-j0u7v8361cmdsfm6g1c45nvbfe83u36e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lucifer.SocialLoginXamarin",
+            "certificate_hash": "c55b17e41aa32bae5e3634b91c0d96314f2f4c0f"
+          }
+        },
+        {
+          "client_id": "1080550597901-mnlnnrl3r0o7eif4lnvj04nfdmhh7bo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn7CG3umJ8og23kM2X8cBMptWYuvRDWfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080550597901-jkqvkaivf6g567i52hnqol12io9pdejf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1080550597901-d1t70r40f10leuv3tap67udlq4gdpmrv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lucifer.SocialLoginXamarin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

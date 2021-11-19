@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SocialFirebaseLogin.MainPage">
+
+    <StackLayout>
+        <StackLayout Padding="10,0,10,0" VerticalOptions="Center" >
+            <Button VerticalOptions="Center" Text="{Binding GoogleButtonText}" Command="{Binding LoginCommand}" CommandParameter="{Binding GoogleButtonText}"/>
+            <Button VerticalOptions="Center" Text="{Binding FacebookButtonText}" Command="{Binding LoginCommand}" CommandParameter="{Binding FacebookButtonText}"/>
+        </StackLayout>
+
+
+
+        <Grid>
+            <StackLayout Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                <Image Source="{Binding GoogleUser.PhotoUrl}" 
+               IsVisible="{Binding IsGoogleLogedIn}"/>
+
+                <Label Text="{Binding GoogleUser.DisplayName}" 
+               IsVisible="{Binding IsGoogleLogedIn}"/>
+
+                <Label Text="{Binding GoogleUser.Email}" 
+               IsVisible="{Binding IsGoogleLogedIn}"/>
+            </StackLayout>
+
+
+
+            <StackLayout Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                <Image Source="{Binding FacebookUser.PhotoUrl}" 
+			   IsVisible="{Binding IsFacebookLogedIn}"/>
+
+                <Label Text="{Binding FacebookUser.DisplayName}" 
+			   IsVisible="{Binding IsFacebookLogedIn}"/>
+
+                <Label Text="{Binding FacebookUser.Email}" 
+			   IsVisible="{Binding IsFacebookLogedIn}"/>
+            </StackLayout>
+        </Grid>
+    </StackLayout>
+
+</ContentPage>
