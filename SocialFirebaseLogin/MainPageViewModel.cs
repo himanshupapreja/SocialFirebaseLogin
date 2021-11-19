@@ -74,7 +74,7 @@ namespace SocialFirebaseLogin
             {
                 if (obj.Equals("Google Login"))
                 {
-                    socialLogin.NativeGoogleSignin(OnLoginComplete,SocialLoginEnum.Google);
+                    socialLogin.NativeSocialSignin(OnLoginComplete,SocialLoginEnum.Google);
                 }
                 else if (obj.Equals("Google Logout"))
                 {
@@ -85,7 +85,7 @@ namespace SocialFirebaseLogin
 
                 if (obj.Equals("Facebook Login"))
                 {
-                    socialLogin.NativeGoogleSignin(OnLoginComplete, SocialLoginEnum.Facebook);
+                    socialLogin.NativeSocialSignin(OnLoginComplete, SocialLoginEnum.Facebook);
                 }
                 else if (obj.Equals("Facebook Logout"))
                 {

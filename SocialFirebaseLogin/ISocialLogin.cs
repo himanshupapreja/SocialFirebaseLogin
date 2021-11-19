@@ -7,7 +7,7 @@ namespace SocialFirebaseLogin
 {
     public interface ISocialLogin
     {
-        Task NativeGoogleSignin(Action<SocialLoginUser, SocialLoginEnum, string> OnLoginComplete, SocialLoginEnum socialLoginType);
+        Task NativeSocialSignin(Action<SocialLoginUser, SocialLoginEnum, string> OnLoginComplete, SocialLoginEnum socialLoginType);
         Task NativeSocialSignout(SocialLoginEnum socialLoginType);
     }
 }
