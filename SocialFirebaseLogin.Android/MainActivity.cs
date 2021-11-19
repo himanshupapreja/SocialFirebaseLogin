@@ -44,7 +44,7 @@ namespace SocialFirebaseLogin.Droid
 
             activity = this;
 
-
+            /* Facebook Login data */
             fbAuth = FirebaseAuth.Instance;
             callbackManager = CallbackManagerFactory.Create();
             LoginManager = LoginManager.Instance;
@@ -54,7 +54,7 @@ namespace SocialFirebaseLogin.Droid
             LoadApplication(new App());
         }
 
-        public async Task NativeGoogleSignin(Action<SocialLoginUser, SocialLoginEnum, string> OnLoginComplete, SocialLoginEnum socialLoginType)
+        public async Task NativeSocialSignin(Action<SocialLoginUser, SocialLoginEnum, string> OnLoginComplete, SocialLoginEnum socialLoginType)
         {
             _onLoginComplete = OnLoginComplete;
             if (socialLoginType.Equals(SocialLoginEnum.Google))
@@ -106,7 +106,7 @@ namespace SocialFirebaseLogin.Droid
                 try
                 {
                     GoogleSignInAccount task = await GoogleSignIn.GetSignedInAccountFromIntentAsync(data);
-                    handleSignInResult(task, SocialLoginEnum.Google);
+                    handleGoogleSignInResult(task, SocialLoginEnum.Google);
                 }
                 catch (ApiException e)
                 {
@@ -116,11 +116,12 @@ namespace SocialFirebaseLogin.Droid
             }
             else
             {
+                /* Facebook Login data */
                 callbackManager.OnActivityResult(requestCode, resultCode.GetHashCode(), data);
             }
         }
 
-        private void handleSignInResult(GoogleSignInAccount completedTask, SocialLoginEnum socialLogin)
+        private void handleGoogleSignInResult(GoogleSignInAccount completedTask, SocialLoginEnum socialLogin)
         {
             try
             {
