@@ -5,8 +5,10 @@
 
     <StackLayout>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center" >
-            <Button VerticalOptions="Center" Text="{Binding GoogleButtonText}" Command="{Binding LoginCommand}" CommandParameter="{Binding GoogleButtonText}"/>
-            <Button VerticalOptions="Center" Text="{Binding FacebookButtonText}" Command="{Binding LoginCommand}" CommandParameter="{Binding FacebookButtonText}"/>
+            <Button VerticalOptions="Center" Text="{Binding GoogleButtonText}" Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding GoogleButtonText}"/>
+            <Button VerticalOptions="Center" Text="{Binding FacebookButtonText}" Command="{Binding LoginCommand}" 
+                    CommandParameter="{Binding FacebookButtonText}"/>
         </StackLayout>
 
 
