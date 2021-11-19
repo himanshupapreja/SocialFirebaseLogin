@@ -75,7 +75,6 @@ namespace SocialFirebaseLogin
                 if (obj.Equals("Google Login"))
                 {
                     socialLogin.NativeGoogleSignin(OnLoginComplete,SocialLoginEnum.Google);
-                    GoogleButtonText = "Google Logout";
                 }
                 else if (obj.Equals("Google Logout"))
                 {
@@ -87,7 +86,6 @@ namespace SocialFirebaseLogin
                 if (obj.Equals("Facebook Login"))
                 {
                     socialLogin.NativeGoogleSignin(OnLoginComplete, SocialLoginEnum.Facebook);
-                    FacebookButtonText = "Facebook Logout";
                 }
                 else if (obj.Equals("Facebook Logout"))
                 {
@@ -106,11 +104,13 @@ namespace SocialFirebaseLogin
                 if (socialLoginType.Equals(SocialLoginEnum.Google))
                 {
                     GoogleUser = socialLoginUser;
+                    GoogleButtonText = "Google Logout";
                     IsGoogleLogedIn = true; 
                 }
                 else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
                 {
                     FacebookUser = socialLoginUser;
+                    FacebookButtonText = "Facebook Logout";
                     IsFacebookLogedIn = true; 
                 }
             }
