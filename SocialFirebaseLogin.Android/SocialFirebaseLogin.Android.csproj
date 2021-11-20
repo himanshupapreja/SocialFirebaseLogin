@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -114,7 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocialFirebaseLogin\SocialFirebaseLogin.csproj">
-      <Project>{4C0A97DF-F565-424C-85A0-4FC332C7E34A}</Project>
+      <Project>{C1908DBA-42FB-4332-A0DA-71B6F94D7BD9}</Project>
       <Name>SocialFirebaseLogin</Name>
     </ProjectReference>
   </ItemGroup>
