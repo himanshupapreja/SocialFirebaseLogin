@@ -4,6 +4,12 @@
              x:Class="SocialFirebaseLogin.MainPage">
 
     <StackLayout>
+        <StackLayout.Margin>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="Android">0</On>
+                <On Platform="iOS">0,100,0,0</On>
+            </OnPlatform>
+        </StackLayout.Margin>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center" >
             <Button VerticalOptions="Center" Text="{Binding GoogleButtonText}" Command="{Binding LoginCommand}"
                     CommandParameter="{Binding GoogleButtonText}"/>
