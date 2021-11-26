@@ -44,7 +44,28 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 		</dict>
+      <dict>
+        <key>CFBundleURLName</key>
+        <string>FacebookLogin</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb432976588355688</string>
+        </array>
+      </dict>    
 	</array>
+
+  <key>FacebookAppID</key>
+  <string>432976588355688</string>
+  <key>FacebookDisplayName</key>
+  <string>SocialLoginXamarin</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>fbapi</string>
+    <string>fb-messenger-api</string>
+    <string>fbauth2</string>
+    <string>fbshareextension</string>
+  </array>
+  
 	<key>UIRequiresFullScreen</key>
 	<true/>
 </dict>

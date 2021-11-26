@@ -7,6 +7,10 @@ using FirebaseCore = Firebase.Core;
 using Firebase.Auth;
 using UIKit;
 using System.Threading.Tasks;
+using Facebook.ShareKit;
+using Facebook.GamingServicesKit;
+using Facebook.CoreKit;
+using Facebook.LoginKit;
 using Xamarin.Forms;
 
 namespace SocialFirebaseLogin.iOS
@@ -21,6 +25,8 @@ namespace SocialFirebaseLogin.iOS
         static Action<SocialLoginUser, SocialLoginEnum, string> _onLoginComplete;
         static AppDelegate appDelegate;
         static UIViewController NewUIViewController =  new UIViewController();
+        static Firebase.Auth.Auth fbAuth;
+        static LoginManager loginManager;
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -35,6 +41,9 @@ namespace SocialFirebaseLogin.iOS
             appDelegate = this;
 
             DependencyService.Register<ISocialLogin, AppDelegate>();
+            fbAuth = Auth.DefaultInstance;
+
+            loginManager = new LoginManager();
             LoadApplication(new App());
 
 
@@ -53,17 +62,57 @@ namespace SocialFirebaseLogin.iOS
 
         public Task NativeSocialSignin(Action<SocialLoginUser, SocialLoginEnum, string> OnLoginComplete, SocialLoginEnum socialLoginType)
         {
-            _onLoginComplete = OnLoginComplete;
-            if (socialLoginType.Equals(SocialLoginEnum.Google))
+            try
             {
-                var clientId = FirebaseCore.App.DefaultInstance.Options.ClientId;
-                SignIn.SharedInstance.ClientId = clientId;
-                SignIn.SharedInstance.Delegate = this;
-                SignIn.SharedInstance.PresentingViewController = appDelegate.Window.RootViewController;
-                SignIn.SharedInstance.SignInUser();
+                _onLoginComplete = OnLoginComplete;
+                if (socialLoginType.Equals(SocialLoginEnum.Google))
+                {
+                    SignIn.SharedInstance.SignOutUser();
+                    var clientId = FirebaseCore.App.DefaultInstance.Options.ClientId;
+                    SignIn.SharedInstance.ClientId = clientId;
+                    SignIn.SharedInstance.Delegate = this;
+                    SignIn.SharedInstance.PresentingViewController = appDelegate.Window.RootViewController;
+                    SignIn.SharedInstance.SignInUser();
+                }
+                else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+                {
+                    NSError fbError = null;
+                    fbAuth.SignOut(out fbError);
+                    loginManager.LogOut();
+                    LoginConfiguration loginConfiguration = new LoginConfiguration(new string[] { "email", "public_profile" }, LoginTracking.Enabled);
+                    loginManager.LogIn(appDelegate.Window.RootViewController, loginConfiguration, async (result, error) =>
+                    {
+                        if (result == null || result.IsCancelled)
+                        {
+                            if (result.IsCancelled)
+                                _onLoginComplete?.Invoke(null, SocialLoginEnum.Facebook, "User Cancelled!");
+                            else if (error != null)
+                                _onLoginComplete?.Invoke(null, SocialLoginEnum.Facebook, error.LocalizedDescription);
+                        }
+                        else
+                        {
+                            var credentials = FacebookAuthProvider.GetCredential(result.Token.TokenString);
+                            var facebookResultData = await Auth.DefaultInstance.SignInWithCredentialAsync(credentials);
+                            if (facebookResultData != null && facebookResultData.User != null)
+                            {
+                                _onLoginComplete?.Invoke(new SocialLoginUser()
+                                {
+                                    DisplayName = facebookResultData.User.ProviderData.FirstOrDefault().DisplayName,
+                                    Email = facebookResultData.User.ProviderData.FirstOrDefault().Email,
+                                    PhotoUrl = new Uri((facebookResultData.User.ProviderData.FirstOrDefault().PhotoUrl != null ? $"{facebookResultData.User.ProviderData.FirstOrDefault().PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
+                                }, SocialLoginEnum.Facebook, null);
+                            }
+                            else
+                            {
+                                _onLoginComplete?.Invoke(null, SocialLoginEnum.Facebook, "User login Failed");
+                            }
+                        }
+                    });
+                }
             }
-            else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine("NativeSocialSignIn :: -- ", ex);
             }
 
             return Task.CompletedTask;
@@ -71,16 +120,33 @@ namespace SocialFirebaseLogin.iOS
 
         public Task NativeSocialSignout(SocialLoginEnum socialLoginType)
         {
-            if (socialLoginType.Equals(SocialLoginEnum.Google))
+            try
             {
+                if (socialLoginType.Equals(SocialLoginEnum.Google))
+                {
+                    SignIn.SharedInstance.SignOutUser();
+                }
+                else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+                {
+                    NSError fbError = null;
+                    fbAuth.SignOut(out fbError);
+                    loginManager.LogOut();
+                }
             }
-            else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine("NativeSocialSignout :: -- ", ex);
             }
 
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Google ISignInDelegate Method
+        /// </summary>
+        /// <param name="signIn"></param>
+        /// <param name="user"></param>
+        /// <param name="error"></param>
         public void DidSignIn(SignIn signIn, GoogleUser user, NSError error)
         {
             if (user == null)
@@ -98,5 +164,21 @@ namespace SocialFirebaseLogin.iOS
                 }, SocialLoginEnum.Google, error.ToString());
             }
         }
+
+
+        /// <summary>
+        /// Facebook ILoginButtonDelegate Methodes
+        /// </summary>
+        /// <param name="loginButton"></param>
+        /// <param name="result"></param>
+        /// <param name="error"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        //public void DidComplete(LoginButton loginButton, LoginManagerLoginResult result, NSError error)
+        //{
+        //}
+
+        //public void DidLogOut(LoginButton loginButton)
+        //{
+        //}
     }
 }
