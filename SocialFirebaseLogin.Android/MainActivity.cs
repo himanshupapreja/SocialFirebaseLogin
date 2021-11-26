@@ -56,38 +56,54 @@ namespace SocialFirebaseLogin.Droid
 
         public async Task NativeSocialSignin(Action<SocialLoginUser, SocialLoginEnum, string> OnLoginComplete, SocialLoginEnum socialLoginType)
         {
-            _onLoginComplete = OnLoginComplete;
-            if (socialLoginType.Equals(SocialLoginEnum.Google))
+            try
             {
-                await googleSignInClient.SignOutAsync();
-                Intent signInIntent = googleSignInClient.SignInIntent;
-                activity.StartActivityForResult(signInIntent, SocialLoginEnum.Google.GetHashCode());
-            }
-            else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
-            {
-                fbAuth.SignOut();
+                _onLoginComplete = OnLoginComplete;
+                if (socialLoginType.Equals(SocialLoginEnum.Google))
+                {
+                    await googleSignInClient.SignOutAsync();
+                    Intent signInIntent = googleSignInClient.SignInIntent;
+                    activity.StartActivityForResult(signInIntent, SocialLoginEnum.Google.GetHashCode());
+                }
+                else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+                {
+                    fbAuth.SignOut();
+                    LoginManager.LogOut();
 
-                try
-                {
-                    LoginManager.RegisterCallback(callbackManager, activity);
-                    LoginManager.LogInWithReadPermissions(activity, new List<string> { "email", "public_profile" });
+                    try
+                    {
+                        LoginManager.RegisterCallback(callbackManager, activity);
+                        LoginManager.LogInWithReadPermissions(activity, new List<string> { "email", "public_profile" });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("RegisterCallback exception" + ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("RegisterCallback exception" + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("NativeSocialSignIn :: -- ", ex);
             }
         }
 
         public async Task NativeSocialSignout(SocialLoginEnum socialLoginType)
         {
-            if (socialLoginType.Equals(SocialLoginEnum.Google))
+            try
             {
-                await googleSignInClient.SignOutAsync(); 
+                if (socialLoginType.Equals(SocialLoginEnum.Google))
+                {
+                    await googleSignInClient.SignOutAsync();
+                }
+                else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+                {
+                    fbAuth.SignOut();
+                    LoginManager.LogOut();
+                }
             }
-            else if (socialLoginType.Equals(SocialLoginEnum.Facebook))
+            catch (Exception ex)
             {
-                fbAuth.SignOut(); 
+                System.Diagnostics.Debug.WriteLine("NativeSocialSignout :: -- ", ex);
             }
         }
 
